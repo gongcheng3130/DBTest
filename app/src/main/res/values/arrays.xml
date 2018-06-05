@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="DataBase_Info">
+        <item>Enterprise_DBHelp</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="DataBase_SQL">
+        <item>show tables</item>
+    </string-array>
+
+    <string-array name="DataBase_Create">
+        <item>...</item>
+        <item>...</item>
+    </string-array>
+
+</resources>

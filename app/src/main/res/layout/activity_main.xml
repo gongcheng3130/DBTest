@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/bt_table"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:textSize="10dp"
+            android:text="获取表名信息"/>
+
+        <TextView
+            android:id="@+id/tv_table_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="表名信息"/>
+
+        <Button
+            android:id="@+id/bt_column"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:textSize="10dp"
+            android:text="获取表列名信息"/>
+
+        <TextView
+            android:id="@+id/tv_column_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="表列名信息"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <Button
+                android:id="@+id/bt_student_add"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:text="添加一个"/>
+
+            <Button
+                android:id="@+id/bt_student_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:text="删除最后一个"/>
+
+            <Button
+                android:id="@+id/bt_student_update"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:text="修改最后一个"/>
+
+            <Button
+                android:id="@+id/bt_student_query"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:text="查找最后一个"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <Button
+                android:id="@+id/bt_student_query_multi"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:text="条件范围"/>
+
+            <Button
+                android:id="@+id/bt_student_query_multi_size"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:text="查询某条件下指定条目"/>
+
+            <Button
+                android:id="@+id/bt_student_delete_all"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:text="删除表数据"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_all_student"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前学生集合"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tv_multi_student"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="多条件查询"
+            android:textSize="14sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <Button
+                android:id="@+id/bt_teacher_add"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:text="添加一个"/>
+
+            <Button
+                android:id="@+id/bt_teacher_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:text="删除最后一个"/>
+
+            <Button
+                android:id="@+id/bt_teacher_update"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:text="修改最后一个"/>
+
+            <Button
+                android:id="@+id/bt_teacher_query"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:text="查找最后一个"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <Button
+                android:id="@+id/bt_teacher_query_multi"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:text="条件范围"/>
+
+            <Button
+                android:id="@+id/bt_teacher_query_multi_size"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:text="查询某条件下指定条目"/>
+
+            <Button
+                android:id="@+id/bt_teacher_delete_all"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:text="删除表数据"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_all_teacher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前老师集合"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tv_multi_teacher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="多条件查询"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+</ScrollView>
