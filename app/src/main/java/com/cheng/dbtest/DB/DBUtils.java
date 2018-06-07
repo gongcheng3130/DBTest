@@ -98,6 +98,12 @@ public class DBUtils {
         return "drop table " + tabName;
     }
 
+    //表增加字段
+    public static String insertTableColumn(Class<?> clazz, String column, String type, String _default){
+        Log.i(TAG, "alter table " + clazz.getSimpleName() + " add " + column + " " + type + " default " + _default);
+        return "alter table " + clazz.getSimpleName() + " add " + column + " " + type + " default " + _default;
+    }
+    
     //得到表名
     public static String getTableName(Class<?> clazz){
         Log.i(TAG, "clazz.name = " + clazz.getSimpleName());
