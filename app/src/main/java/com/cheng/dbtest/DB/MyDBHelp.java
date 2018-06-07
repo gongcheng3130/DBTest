@@ -15,7 +15,7 @@ public class MyDBHelp extends SQLiteOpenHelper {
     //数据库名称，这个应该一直不用动，不管他
     public static final String DB_NMAE = "Enterprise.db";
     //数据库版本，每对数据库需要做修改的时候，版本号加1
-    public static final int DB_VERSION = 2;
+    public static final int DB_VERSION = 3;
     //数据库密码，加密使用，修改密码也只需要改这个字段的值，不需要做额外处理
     public static final String DB_PWD = "";//数据库密码，为空时等于没有加密
 
@@ -60,6 +60,9 @@ public class MyDBHelp extends SQLiteOpenHelper {
                 break;
             case 2:
                 db.execSQL(DBUtils.getCreateTableSql(Student.class));
+                break;
+            case 3:
+                db.execSQL(DBUtils.insertTableColumn(Student.class, "project", "string", ""));
                 break;
         }
     }
