@@ -3,9 +3,7 @@ package com.cheng.dbtest.DB;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-
 import net.sqlcipher.database.SQLiteDatabase;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -58,6 +56,22 @@ public class MyDBManage {
     }
 
     /**
+     * 判断数据库中是否存在表
+     */
+    public <T> boolean hasTable(Class<T> clazz){
+//        select count(*) from sqlite_master where type='table' and name ='yourtablename'
+        String sql = "select count(*) from sqlite_master where type='table' and name='" + clazz.getSimpleName() + "' ";
+        Cursor cursor = mDb.rawQuery(sql, null);
+        if(cursor.moveToNext()){
+            int count = cursor.getInt(0);
+            if(count>0){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * 查询表中所有列名
      * 测试用
      */
@@ -98,8 +112,12 @@ public class MyDBManage {
      * @return 返回list集合
      */
     public <T> List<T> findAll(Class<T> clazz) {
-        Cursor cursor = mDb.query(clazz.getSimpleName(), null, null, null, null, null, null);
-        return getEntity(cursor, clazz);
+        Cursor cursor = getCursor(clazz, null, null, null, null, false);
+        if(cursor!=null){
+            return getEntity(cursor, clazz);
+        }else{
+            return new ArrayList<>();
+        }
     }
 
     /**
@@ -110,12 +128,16 @@ public class MyDBManage {
      * @return 返回满足条件的对象
      */
     public <T> T findById(Class<T> clazz, int id) {
-        Cursor cursor = mDb.query(clazz.getSimpleName(), null, "id=" + id, null, null, null, null);
-        List<T> list = getEntity(cursor, clazz);
-        if(list!=null && list.size()>0){
-            return list.get(0);
-        }else{
+        Cursor cursor = getCursor(clazz, null, "id=" + id, null, null, false);
+        if(cursor==null){
             return null;
+        }else{
+            List<T> list = getEntity(cursor, clazz);
+            if(list!=null && list.size()>0){
+                return list.get(0);
+            }else{
+                return null;
+            }
         }
     }
 
@@ -129,8 +151,12 @@ public class MyDBManage {
      * @return 返回满足条件的list集合
      */
     public <T> List<T> findByArgs(Class<T> clazz, String select, String[] selectArgs) {
-        Cursor cursor = mDb.query(clazz.getSimpleName(), null, select, selectArgs, null, null, null);
-        return getEntity(cursor, clazz);
+        Cursor cursor = getCursor(clazz, null, select, selectArgs, null, false);
+        if(cursor!=null){
+            return getEntity(cursor, clazz);
+        }else{
+            return new ArrayList<>();
+        }
     }
 
     /**
@@ -143,13 +169,12 @@ public class MyDBManage {
      * @return 返回满足条件的list集合
      */
     public <T> List<T> findByArgs(Class<T> clazz, String select, String[] selectArgs, String order) {
-        Cursor cursor = mDb.query(clazz.getSimpleName(), null
-                , select
-                , selectArgs
-                , null
-                , null
-                , order);
-        return getEntity(cursor, clazz);
+        Cursor cursor = getCursor(clazz, null, select, selectArgs, order, false);
+        if(cursor!=null){
+            return getEntity(cursor, clazz);
+        }else{
+            return new ArrayList<>();
+        }
     }
 
     /**
@@ -163,14 +188,12 @@ public class MyDBManage {
      * @return 返回满足条件的list集合
      */
     public <T> List<T> findByArgs(Class<T> clazz, String order, boolean desc, int limit, int offset) {
-        Cursor cursor = mDb.query(clazz.getSimpleName(), null
-                , null
-                , null
-                , null
-                , null
-                , order + (desc ? " desc " : " asc ")
-                , offset+ "," + limit);
-        return getEntity(cursor, clazz);
+        Cursor cursor = getCursor(clazz, null, null, null, order, desc, limit, offset);
+        if(cursor!=null){
+            return getEntity(cursor, clazz);
+        }else{
+            return new ArrayList<>();
+        }
     }
 
 //    sql = "select * from (tablename) where (select + selectArgs) order by (order) limit (count),(offset)
@@ -187,14 +210,12 @@ public class MyDBManage {
      * @return 返回满足条件的list集合
      */
     public <T> List<T> findByArgs(Class<T> clazz, String select, String[] selectArgs, String order, boolean desc, int limit, int offset) {
-        Cursor cursor = mDb.query(clazz.getSimpleName(), null
-                , select
-                , selectArgs
-                , null
-                , null
-                , order + (desc ? " desc " : " asc ")
-                , offset+ "," + limit);
-        return getEntity(cursor, clazz);
+        Cursor cursor = getCursor(clazz, null, select, selectArgs, order, desc, limit, offset);
+        if(cursor!=null){
+            return getEntity(cursor, clazz);
+        }else{
+            return new ArrayList<>();
+        }
     }
 
     //    sql = "select (colunm) from (tablename) where (select + selectArgs) order by (order) limit (count),(offset)
@@ -212,7 +233,35 @@ public class MyDBManage {
      * @return 返回满足条件的list集合
      */
     public <T> List<T> findByArgs(Class<T> clazz, String[] colunm, String select, String[] selectArgs, String order, boolean desc, int limit, int offset) {
-        Cursor cursor = mDb.query(clazz.getSimpleName()
+        Cursor cursor = getCursor(clazz, colunm, select, selectArgs, order, desc, limit, offset);
+        if(cursor!=null){
+            return getEntity(cursor, clazz);
+        }else{
+            return new ArrayList<>();
+        }
+    }
+
+    public <T> Cursor getCursor(Class<T> clazz, String[] colunm, String select, String[] selectArgs, String order, boolean desc){
+        try{
+             Cursor cursor = mDb.query(clazz.getSimpleName()
+                , colunm
+                , select
+                , selectArgs
+                , null
+                , null
+                , order + (desc ? " desc " : " asc "));
+             return cursor;
+        }catch(net.sqlcipher.database.SQLiteException e){
+            e.printStackTrace();
+            if(hasTable(clazz)) mDb.execSQL(DBUtils.getDeleteTableSql(clazz));
+            mDb.execSQL(DBUtils.getCreateTableSql(clazz));
+        }
+        return null;
+    }
+
+    public <T> Cursor getCursor(Class<T> clazz, String[] colunm, String select, String[] selectArgs, String order, boolean desc, int limit, int offset){
+        try{
+             Cursor cursor = mDb.query(clazz.getSimpleName()
                 , colunm
                 , select
                 , selectArgs
@@ -220,7 +269,13 @@ public class MyDBManage {
                 , null
                 , order + (desc ? " desc " : " asc ")
                 , offset+ "," + limit);
-        return getEntity(cursor, clazz);
+             return cursor;
+        }catch(net.sqlcipher.database.SQLiteException e){
+            e.printStackTrace();
+            if(hasTable(clazz)) mDb.execSQL(DBUtils.getDeleteTableSql(clazz));
+            mDb.execSQL(DBUtils.getCreateTableSql(clazz));
+        }
+        return null;
     }
 
     /**
@@ -240,7 +295,6 @@ public class MyDBManage {
                     for (Field field : fields) {
                         Class<?> cursorClass = cursor.getClass();
                         String columnMethodName = DBUtils.getColumnMethodName(field.getType());
-
                         if("getIncrementalChange".equals(columnMethodName)) continue;
 
                         Method cursorMethod = cursorClass.getMethod(columnMethodName, int.class);
@@ -358,5 +412,3 @@ public class MyDBManage {
     public int updateById(Class<?> clazz, ContentValues values, long id) {
         return mDb.update(clazz.getSimpleName(), values, "id=" + id, null);
     }
-
-}
